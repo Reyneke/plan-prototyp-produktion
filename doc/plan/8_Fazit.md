@@ -120,7 +120,11 @@ Das vollständige SQL-Schema befindet sich in der Datei **`doc/plan/supabase_sch
    - Services: `SupabaseService` (Auth, CMS, CRM, Shop), `CartService` (Warenkorb mit LocalStorage)
    - Pages: `HomePage` (Hero, Services, News-Feed, Newsletter), `ShopPage` (Produkte, Warenkorb, Checkout-UI), `ArticleDetailPage`, `LoginPage`, `AdminDashboard`
    - Zugangsdaten aus `.env/` werden nach `lib/env/` kopiert (von Git ignoriert)
-4. [ ] Schritt 1 (öffentlicher Bereich) implementieren
+4. [X] Schritt 1 (öffentlicher Bereich) implementieren
+   - **Landing Page:** Hero-Section, Service-Cards, dynamischer News-Feed aus Supabase, Newsletter-Anmeldeformular
+   - **Shop:** Produktübersicht mit Kategorie-Filter, Warenkorb (BottomSheet), Checkout-UI (Dialog) – ohne echte Zahlung
+   - **Login/Registrierung:** Supabase Auth mit E-Mail/Passwort, Umschaltung zwischen Login und Registrierung
+   - **Artikel-Detailansicht:** Einzelansicht für Blog-Artikel per Slug
 5. [ ] Schritt 2 (Admin-Dashboard) implementieren
 6. [ ] Deployment aufsetzen (GitHub Actions → Vercel/Netlify)
 7. [ ] Domain konfigurieren

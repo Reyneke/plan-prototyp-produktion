@@ -84,7 +84,7 @@ class _ShopPageState extends State<ShopPage> {
           : Column(
               children: [
                 // Kategorie-Filter
-                Container(
+                SizedBox(
                   height: 50,
                   child: ListView(
                     scrollDirection: Axis.horizontal,

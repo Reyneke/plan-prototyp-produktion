@@ -92,9 +92,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await _supabase.signOut();
-              Navigator.pushReplacementNamed(context, '/');
+            onPressed: () {
+              final navigator = Navigator.of(context);
+              _supabase.signOut().then((_) {
+                navigator.pushReplacementNamed('/');
+              });
             },
             tooltip: 'Abmelden',
           ),

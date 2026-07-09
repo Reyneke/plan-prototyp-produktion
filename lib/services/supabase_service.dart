@@ -17,7 +17,7 @@ class SupabaseService {
   Future<void> initialize() async {
     await Supabase.initialize(
       url: env.url,
-      anonKey: env.publishableKey,
+      publishableKey: env.publishableKey,
     );
   }
 
@@ -171,9 +171,9 @@ class SupabaseService {
   Future<int> getActiveSubscriberCount() async {
     final response = await client
         .from('subscribers')
-        .select('id', const FetchOptions(count: CountOption.exact))
+        .select('id')
         .eq('status', 'active');
-    return response.count ?? 0;
+    return (response as List).length;
   }
 
   Future<void> deleteSubscriber(int id) async {
