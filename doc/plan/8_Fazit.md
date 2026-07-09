@@ -96,29 +96,30 @@ Das vollständige SQL-Schema befindet sich in der Datei **`doc/plan/supabase_sch
 
 ### Wichtige Features des Schemas
 
-- **Row-Level-Security (RLS):** Jede Tabelle hat Policies, die festlegen, wer lesen/schreiben darf:
-  - Öffentliche (nicht eingeloggte) Besucher: Dürfen nur veröffentlichte Artikel, verfügbare Produkte und Kategorien sehen
-  - Jeder: Darf sich registrieren (profiles), bestellen (orders) und Newsletter abonnieren (subscribers)
-  - Admins (role = 'admin'): Dürfen alle Daten sehen und verwalten (CRUD auf allen Tabellen)
-- **Automatische Profile-Erstellung:** Ein Trigger legt automatisch ein Profil an, wenn ein neuer User registriert wird
-- **`updated_at`-Trigger:** Alle relevanten Tabellen aktualisieren automatisch den `updated_at`-Timestamp
-- **Seed-Daten:** 6 Kategorien und 15 Beispiel-Produkte (komplette Pizzeria-Speisekarte) sind im Skript enthalten
+- **Row-Level-Security (RLS):** Jede Tabelle hat Policies, die festlegen, wer lesen/schreiben darf
+- **Automatische Profile-Erstellung:** Trigger legt Profil bei Registrierung an
+- **`updated_at`-Trigger:** Automatische Timestamp-Aktualisierung
+- **Seed-Daten:** 6 Kategorien + 15 Beispiel-Produkte (komplette Speisekarte)
 
 ### So importieren Sie das Schema in Supabase
 
-1. **Supabase Dashboard** öffnen (https://supabase.com)
-2. Projekt auswählen oder neues Projekt erstellen
-3. **SQL Editor** → **New Query**
-4. Den gesamten Inhalt von `doc/plan/supabase_schema.sql` einfügen
-5. **Run** (oder `Strg + Enter`) ausführen
+1. Supabase Dashboard → SQL Editor → New Query
+2. `doc/plan/supabase_schema.sql` einfügen → Ausführen
 
 ---
 
 ## Offene Punkte / Nächste Schritte
 
-1. [ ] Supabase-Projekt anlegen und Tabellen-Schema importieren (`doc/plan/supabase_schema.sql`)
-2. [ ] Brevo-API-Key besorgen und in Supabase Edge Function hinterlegen
-3. [ ] Flutter Web-Projekt initialisieren und Grundstruktur aufbauen
+1. [X] Supabase-Projekt anlegen und Tabellen-Schema importieren (`doc/plan/supabase_schema.sql`)
+2. [X] Brevo-API-Key besorgen und in Supabase Edge Function hinterlegen
+3. [X] Flutter Web-Projekt initialisieren und Grundstruktur aufbauen
+   - `.gitignore` um `.env/` und `lib/env/` erweitert (Zugangsdaten bleiben lokal, nicht in GitHub)
+   - `supabase_flutter` als Dependency hinzugefügt
+   - Projektstruktur: `lib/models/`, `lib/services/`, `lib/pages/public/`, `lib/pages/admin/`
+   - Model-Klassen: `Article`, `Product`, `Category`
+   - Services: `SupabaseService` (Auth, CMS, CRM, Shop), `CartService` (Warenkorb mit LocalStorage)
+   - Pages: `HomePage` (Hero, Services, News-Feed, Newsletter), `ShopPage` (Produkte, Warenkorb, Checkout-UI), `ArticleDetailPage`, `LoginPage`, `AdminDashboard`
+   - Zugangsdaten aus `.env/` werden nach `lib/env/` kopiert (von Git ignoriert)
 4. [ ] Schritt 1 (öffentlicher Bereich) implementieren
 5. [ ] Schritt 2 (Admin-Dashboard) implementieren
 6. [ ] Deployment aufsetzen (GitHub Actions → Vercel/Netlify)
