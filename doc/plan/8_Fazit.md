@@ -59,7 +59,7 @@ Nach Abwägung aller Anforderungen, Rahmenbedingungen und Alternativen empfiehlt
 
 ### Schritt 3: Abschluss & Reflexion (Tag 10)
 - Feinschliff, Testing, Deployment
-- Reflexion schreiben (siehe Schritt 3)
+- Reflexion schreiben
 
 ---
 
@@ -77,9 +77,46 @@ Nach Abwägung aller Anforderungen, Rahmenbedingungen und Alternativen empfiehlt
 
 ---
 
+## Supabase-Tabellenschema
+
+Das vollständige SQL-Schema befindet sich in der Datei **`doc/plan/supabase_schema.sql`** und kann direkt in den Supabase SQL Editor importiert werden.
+
+### Tabellen-Übersicht
+
+| Tabelle | Beschreibung | Wichtigste Spalten |
+|---|---|---|
+| **`profiles`** | Benutzerprofile (erweitert Supabase Auth) | `id` (UUID, verknüpft mit auth.users), `email`, `full_name`, `role` (admin/user) |
+| **`articles`** | Blog-Artikel / News (CMS) | `title`, `slug`, `content` (Rich-Text), `featured_image`, `author_id`, `status` (draft/published), `published_at` |
+| **`categories`** | Produktkategorien (Speisekarten-Gruppen) | `name`, `slug`, `description`, `sort_order` |
+| **`products`** | Produkte für den Shop (Speisekarte) | `name`, `slug`, `description`, `price`, `compare_price`, `image_url`, `category_id`, `is_available`, `is_featured` |
+| **`subscribers`** | Newsletter-Abonnenten (CRM) | `email`, `name`, `status` (pending/active/unsubscribed/bounced), `brevo_id` |
+| **`orders`** | Bestellungen (Shop) | `customer_name`, `customer_email`, `customer_phone`, `status`, `pickup_time`, `notes`, `total_amount` |
+| **`order_items`** | Bestellpositionen | `order_id`, `product_id`, `product_name`, `quantity`, `unit_price`, `total_price` |
+| **`newsletter_campaigns`** | Newsletter-Kampagnen (CRM) | `subject`, `content` (HTML), `sent_at`, `recipient_count`, `created_by` |
+
+### Wichtige Features des Schemas
+
+- **Row-Level-Security (RLS):** Jede Tabelle hat Policies, die festlegen, wer lesen/schreiben darf:
+  - Öffentliche (nicht eingeloggte) Besucher: Dürfen nur veröffentlichte Artikel, verfügbare Produkte und Kategorien sehen
+  - Jeder: Darf sich registrieren (profiles), bestellen (orders) und Newsletter abonnieren (subscribers)
+  - Admins (role = 'admin'): Dürfen alle Daten sehen und verwalten (CRUD auf allen Tabellen)
+- **Automatische Profile-Erstellung:** Ein Trigger legt automatisch ein Profil an, wenn ein neuer User registriert wird
+- **`updated_at`-Trigger:** Alle relevanten Tabellen aktualisieren automatisch den `updated_at`-Timestamp
+- **Seed-Daten:** 6 Kategorien und 15 Beispiel-Produkte (komplette Pizzeria-Speisekarte) sind im Skript enthalten
+
+### So importieren Sie das Schema in Supabase
+
+1. **Supabase Dashboard** öffnen (https://supabase.com)
+2. Projekt auswählen oder neues Projekt erstellen
+3. **SQL Editor** → **New Query**
+4. Den gesamten Inhalt von `doc/plan/supabase_schema.sql` einfügen
+5. **Run** (oder `Strg + Enter`) ausführen
+
+---
+
 ## Offene Punkte / Nächste Schritte
 
-1. [ ] Supabase-Projekt anlegen und Tabellen-Schema definieren (`articles`, `products`, `subscribers`)
+1. [ ] Supabase-Projekt anlegen und Tabellen-Schema importieren (`doc/plan/supabase_schema.sql`)
 2. [ ] Brevo-API-Key besorgen und in Supabase Edge Function hinterlegen
 3. [ ] Flutter Web-Projekt initialisieren und Grundstruktur aufbauen
 4. [ ] Schritt 1 (öffentlicher Bereich) implementieren
