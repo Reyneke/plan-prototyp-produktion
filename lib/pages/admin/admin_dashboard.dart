@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../services/supabase_service.dart';
+import 'articles_admin_page.dart';
+import 'products_admin_page.dart';
+import 'subscribers_admin_page.dart';
+import 'newsletter_admin_page.dart';
+import 'orders_admin_page.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -158,31 +163,31 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     icon: Icons.article,
                     title: 'Artikel verwalten (CMS)',
                     subtitle: 'Blog-Artikel erstellen, bearbeiten und löschen',
-                    onTap: () {},
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ArticlesAdminPage())),
                   ),
                   _AdminMenuItem(
                     icon: Icons.restaurant_menu,
                     title: 'Produkte verwalten (Shop)',
                     subtitle: 'Speisekarte und Produkte pflegen',
-                    onTap: () {},
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductsAdminPage())),
                   ),
                   _AdminMenuItem(
                     icon: Icons.people,
                     title: 'Abonnenten (CRM)',
                     subtitle: 'Newsletter-Abonnenten verwalten',
-                    onTap: () {},
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SubscribersAdminPage())),
                   ),
                   _AdminMenuItem(
                     icon: Icons.campaign,
                     title: 'Newsletter versenden',
                     subtitle: 'Kampagnen erstellen und versenden',
-                    onTap: () {},
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const NewsletterAdminPage())),
                   ),
                   _AdminMenuItem(
                     icon: Icons.receipt_long,
                     title: 'Bestellungen',
                     subtitle: 'Eingehende Bestellungen anzeigen',
-                    onTap: () {},
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const OrdersAdminPage())),
                   ),
                 ],
               ),

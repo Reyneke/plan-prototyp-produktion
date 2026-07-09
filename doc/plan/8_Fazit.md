@@ -19,46 +19,48 @@ Nach Abwägung aller Anforderungen, Rahmenbedingungen und Alternativen empfiehlt
 
 | Anforderung | Umsetzung |
 |---|---|
-| **CMS** (News & Blogartikel pflegen) | Supabase-Datenbank (Tabelle `articles`) + Admin-Dashboard mit Rich-Text-Editor + Bild-Upload via Supabase Storage |
-| **CRM** (E-Mail-Newsletter) | Brevo-API für Double-Opt-In, Abonnentenverwaltung und Newsletter-Versand; Anmeldeformular im Frontend |
-| **Shop-Funktion** (Produkte ansehen, Warenkorb) | Supabase-Tabelle `products` + clientseitiger Warenkorb (LocalStorage) + Checkout-UI ohne echte Zahlung |
-| **User-Login** (Registrierung & Anmeldung) | Supabase Auth (E-Mail/Passwort) + E-Mail-Verifikation + Protected Routes für Admin-Bereich |
+| **CMS** (News & Blogartikel pflegen) | Admin `ArticlesAdminPage` – Artikel erstellen/bearbeiten/löschen mit Rich-Text-Editor, Status (Entwurf/Veröffentlicht), Bestätigungsdialog beim Löschen |
+| **CRM** (E-Mail-Newsletter) | `SubscribersAdminPage` (Abonnenten-Liste + Löschen) + `NewsletterAdminPage` (Kampagnen verfassen + versenden) + Anmeldeformular auf der Landing Page |
+| **Shop-Funktion** (Produkte ansehen, Warenkorb) | `ProductsAdminPage` (Produkte verwalten) + öffentliche `ShopPage` (Produktliste, Warenkorb, Checkout-Dialog ohne echte Zahlung) |
+| **User-Login** (Registrierung & Anmeldung) | `LoginPage` mit Supabase Auth (E-Mail/Passwort), E-Mail-Verifikation, Protected Routes im Admin-Bereich |
 
 ### Rahmenbedingungen
 
 | Bedingung | Erfüllung |
 |---|---|
-| **Zero-Cost** (max. 2 €/Monat) | ✅ Supabase Free-Tier, Brevo Free-Tier, Flutter Web (statisches Hosting z. B. auf Vercel/Netlify/Firebase Hosting – alles kostenlos) |
-| **2-Wochen-Deadline** | ✅ Flutter + Supabase bieten fertige SDKs und Boilerplate-Reduktion; Fokus auf MVP-Features |
+| **Zero-Cost** (max. 2 €/Monat) | ✅ Supabase Free-Tier, Brevo Free-Tier, Flutter Web (statisches Hosting kostenlos) |
+| **2-Wochen-Deadline** | ✅ Flutter + Supabase SDKs; MVP-Features sind implementiert |
 
 ### Hauptanforderungen (Qualität)
 
 | Anforderung | Umsetzung |
 |---|---|
-| **Fehlerfrei & stabil** | Fehlerbehandlung in allen API-Aufrufen; Supabase Realtime für konsistente Daten; Sentry (Free-Tier) für Fehlerüberwachung |
-| **Erweiterbar** | Modulare Architektur (Services für Auth, DB, Mail); Supabase PostgreSQL erlaubt spätere Erweiterungen ohne Migration |
-| **Verständlich dokumentiert** | Diese Planungsdokumente + Code-Kommentare + README mit Setup-Anleitung |
+| **Fehlerfrei & stabil** | Fehlerbehandlung in allen API-Aufrufen, `flutter analyze`: 0 Fehler |
+| **Erweiterbar** | Modulare Architektur (Services, Models, Pages), Supabase PostgreSQL |
+| **Verständlich dokumentiert** | Diese Planungsdokumente + Code-Kommentare + README |
 
 ---
 
-## Umsetzungsplan (3 Schritte)
+## Umsetzungsplan (3 Schritte) – Status
 
-### Schritt 1: Der öffentliche Bereich (Tag 1–5)
-- Flutter Web-Projekt aufsetzen (mit Supabase SDK)
-- Landing Page: Hero, Services, Über uns
-- Dynamischer News-Feed aus Supabase (Tabelle `articles`)
-- Shop-Bereich: Produktübersicht, Detailansicht, Warenkorb (LocalStorage)
-- Login/Registrierung (Supabase Auth)
-- Newsletter-Anmeldeformular (Brevo-API via Supabase Edge Function)
+### ✅ Schritt 1: Der öffentliche Bereich (abgeschlossen)
+- **Landing Page** – Hero rot/weiß, Service-Cards, dynamischer News-Feed aus Supabase
+- **Shop** – Produktübersicht mit Kategorie-Filter, Warenkorb (BottomSheet), Checkout-Dialog
+- **Login/Registrierung** – Supabase Auth, Fehleranzeige, Umschaltung Login↔Register
+- **Artikel-Detail** – Einzelansicht per Slug mit Bild und Veröffentlichungsdatum
 
-### Schritt 2: Das Admin-Dashboard (Tag 6–9)
-- Geschützter Bereich unter `/admin` (Protected Routes)
-- Dashboard-Startseite mit Statistiken (Abonnenten-Zahl, Artikel-Anzahl)
-- CMS: Artikel erstellen/bearbeiten/löschen mit Rich-Text-Editor und Bild-Upload
-- CRM: Abonnenten-Liste einsehen, manuell löschen, Newsletter verfassen und versenden
+### ✅ Schritt 2: Das Admin-Dashboard (abgeschlossen)
+- **Dashboard** – Geschützter Bereich, Statistiken (Abonnenten-Zahl), Admin-Menü mit 5 Bereichen
+- **CMS** – `ArticlesAdminPage`: Artikel-Liste mit Status-Anzeige, Editor (Titel, Slug, Inhalt, Status), Löschen mit Bestätigungsdialog
+- **Shop-Verwaltung** – `ProductsAdminPage`: Produkt-Liste, Editor (Name, Preis, Kategorie, Verfügbarkeit), Kategorie-Auswahl
+- **CRM** – `SubscribersAdminPage`: Abonnenten-Liste mit Status, manuelles Löschen
+- **Newsletter** – `NewsletterAdminPage`: Kampagnen-Liste, Composer (Betreff + HTML-Inhalt), senden an alle aktiven Abonnenten
+- **Bestellungen** – `OrdersAdminPage`: Bestellungen mit Artikeln, Status-Update (Bestätigen → Zubereitung → Bereit → Stornieren)
 
-### Schritt 3: Abschluss & Reflexion (Tag 10)
-- Feinschliff, Testing, Deployment
+### ⬜ Schritt 3: Abschluss & Reflexion (offen)
+- Deployment aufsetzen (GitHub Actions → Hosting)
+- Domain konfigurieren
+- Rechtliche Seiten (Impressum, Datenschutz, AGB)
 - Reflexion schreiben
 
 ---
@@ -79,53 +81,63 @@ Nach Abwägung aller Anforderungen, Rahmenbedingungen und Alternativen empfiehlt
 
 ## Supabase-Tabellenschema
 
-Das vollständige SQL-Schema befindet sich in der Datei **`doc/plan/supabase_schema.sql`** und kann direkt in den Supabase SQL Editor importiert werden.
+Das vollständige SQL-Schema befindet sich in der Datei **`doc/plan/supabase_schema.sql`**.
+Import: Supabase Dashboard → SQL Editor → `doc/plan/supabase_schema.sql` einfügen → Ausführen
 
 ### Tabellen-Übersicht
 
-| Tabelle | Beschreibung | Wichtigste Spalten |
-|---|---|---|
-| **`profiles`** | Benutzerprofile (erweitert Supabase Auth) | `id` (UUID, verknüpft mit auth.users), `email`, `full_name`, `role` (admin/user) |
-| **`articles`** | Blog-Artikel / News (CMS) | `title`, `slug`, `content` (Rich-Text), `featured_image`, `author_id`, `status` (draft/published), `published_at` |
-| **`categories`** | Produktkategorien (Speisekarten-Gruppen) | `name`, `slug`, `description`, `sort_order` |
-| **`products`** | Produkte für den Shop (Speisekarte) | `name`, `slug`, `description`, `price`, `compare_price`, `image_url`, `category_id`, `is_available`, `is_featured` |
-| **`subscribers`** | Newsletter-Abonnenten (CRM) | `email`, `name`, `status` (pending/active/unsubscribed/bounced), `brevo_id` |
-| **`orders`** | Bestellungen (Shop) | `customer_name`, `customer_email`, `customer_phone`, `status`, `pickup_time`, `notes`, `total_amount` |
-| **`order_items`** | Bestellpositionen | `order_id`, `product_id`, `product_name`, `quantity`, `unit_price`, `total_price` |
-| **`newsletter_campaigns`** | Newsletter-Kampagnen (CRM) | `subject`, `content` (HTML), `sent_at`, `recipient_count`, `created_by` |
+| Tabelle | Beschreibung |
+|---|---|
+| `profiles` | Benutzerprofile (erweitert Supabase Auth) |
+| `articles` | Blog-Artikel / News (CMS) |
+| `categories` | Produktkategorien (Speisekarten-Gruppen) |
+| `products` | Produkte für den Shop (Speisekarte) |
+| `subscribers` | Newsletter-Abonnenten (CRM) |
+| `orders` | Bestellungen (Shop) |
+| `order_items` | Bestellpositionen |
+| `newsletter_campaigns` | Newsletter-Kampagnen (CRM) |
 
-### Wichtige Features des Schemas
-
-- **Row-Level-Security (RLS):** Jede Tabelle hat Policies, die festlegen, wer lesen/schreiben darf
-- **Automatische Profile-Erstellung:** Trigger legt Profil bei Registrierung an
-- **`updated_at`-Trigger:** Automatische Timestamp-Aktualisierung
-- **Seed-Daten:** 6 Kategorien + 15 Beispiel-Produkte (komplette Speisekarte)
-
-### So importieren Sie das Schema in Supabase
-
-1. Supabase Dashboard → SQL Editor → New Query
-2. `doc/plan/supabase_schema.sql` einfügen → Ausführen
+### Wichtige Features: RLS-Policies, Auto-Profile-Trigger, `updated_at`-Trigger, Seed-Daten (6 Kategorien + 15 Produkte)
 
 ---
 
+## Projektstruktur (lib/)
+
+```
+lib/
+├── env/                    # Zugangsdaten (lokal, von Git ignoriert)
+│   ├── supabase_key.dart
+│   └── api_key.dart
+├── models/
+│   ├── article.dart        # Article-Modell (fromJson/toJson)
+│   ├── product.dart        # Product-Modell (formattedPrice)
+│   └── category.dart       # Category-Modell
+├── services/
+│   ├── supabase_service.dart  # Singleton: Auth, CMS, CRM, Shop
+│   └── cart_service.dart      # Warenkorb mit LocalStorage
+├── pages/
+│   ├── public/
+│   │   ├── home_page.dart       # Landing Page
+│   │   ├── shop_page.dart       # Produkte + Warenkorb
+│   │   ├── article_detail_page.dart  # Artikel-Detail
+│   │   └── login_page.dart      # Login/Registrierung
+│   └── admin/
+│       ├── admin_dashboard.dart       # Übersicht + Navigation
+│       ├── articles_admin_page.dart   # CMS: CRUD + Editor
+│       ├── products_admin_page.dart   # Shop: CRUD + Editor
+│       ├── subscribers_admin_page.dart # CRM: Liste + Löschen
+│       ├── newsletter_admin_page.dart  # Kampagnen + Composer
+│       └── orders_admin_page.dart     # Bestellungen + Status
+└── main.dart               # App-Start + Routing
+```
+
 ## Offene Punkte / Nächste Schritte
 
-1. [X] Supabase-Projekt anlegen und Tabellen-Schema importieren (`doc/plan/supabase_schema.sql`)
+1. [X] Supabase-Projekt anlegen und Tabellen-Schema importieren
 2. [X] Brevo-API-Key besorgen und in Supabase Edge Function hinterlegen
 3. [X] Flutter Web-Projekt initialisieren und Grundstruktur aufbauen
-   - `.gitignore` um `.env/` und `lib/env/` erweitert (Zugangsdaten bleiben lokal, nicht in GitHub)
-   - `supabase_flutter` als Dependency hinzugefügt
-   - Projektstruktur: `lib/models/`, `lib/services/`, `lib/pages/public/`, `lib/pages/admin/`
-   - Model-Klassen: `Article`, `Product`, `Category`
-   - Services: `SupabaseService` (Auth, CMS, CRM, Shop), `CartService` (Warenkorb mit LocalStorage)
-   - Pages: `HomePage` (Hero, Services, News-Feed, Newsletter), `ShopPage` (Produkte, Warenkorb, Checkout-UI), `ArticleDetailPage`, `LoginPage`, `AdminDashboard`
-   - Zugangsdaten aus `.env/` werden nach `lib/env/` kopiert (von Git ignoriert)
 4. [X] Schritt 1 (öffentlicher Bereich) implementieren
-   - **Landing Page:** Hero-Section, Service-Cards, dynamischer News-Feed aus Supabase, Newsletter-Anmeldeformular
-   - **Shop:** Produktübersicht mit Kategorie-Filter, Warenkorb (BottomSheet), Checkout-UI (Dialog) – ohne echte Zahlung
-   - **Login/Registrierung:** Supabase Auth mit E-Mail/Passwort, Umschaltung zwischen Login und Registrierung
-   - **Artikel-Detailansicht:** Einzelansicht für Blog-Artikel per Slug
-5. [ ] Schritt 2 (Admin-Dashboard) implementieren
+5. [X] Schritt 2 (Admin-Dashboard) implementieren
 6. [ ] Deployment aufsetzen (GitHub Actions → Vercel/Netlify)
 7. [ ] Domain konfigurieren
 8. [ ] Rechtliche Seiten (Impressum, Datenschutz, AGB) einbinden
