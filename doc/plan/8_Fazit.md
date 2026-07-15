@@ -138,13 +138,12 @@ lib/
 3. [X] Flutter Web-Projekt initialisieren und Grundstruktur aufbauen
 4. [X] Schritt 1 (öffentlicher Bereich) implementieren
 5. [X] Schritt 2 (Admin-Dashboard) implementieren
-6. [ ] Deployment aufsetzen (GitHub Actions → Vercel/Netlify)
-7. [ ] Domain konfigurieren
+6. [X] Deployment aufsetzen (GitHub Actions → GitHub Pages)
+7. [ ] Domain konfigurieren (optional – aktuell unter https://reyneke.github.io/plan-prototyp-produktion/)
 8. [ ] Rechtliche Seiten (Impressum, Datenschutz, AGB) einbinden
 9. [ ] Schritt 3: Reflexion schreiben
 
-6. [ ] Deployment aufsetzen (GitHub Actions → Vercel/Netlify)
-## Erklärung: Punkt 6 – "Deployment aufsetzen (GitHub Actions → Vercel/Netlify)"
+## Erklärung: Punkt 6 – "Deployment aufsetzen (GitHub Actions → GitHub Pages)"
 
 Dieser Punkt aus der `8_Fazit.md` ist ein offener To-do-Eintrag aus der Liste "Nächste Schritte". Er beschreibt die __Aufgabe, die fertige Flutter Web-App automatisch zu bauen und zu hosten__.
 
