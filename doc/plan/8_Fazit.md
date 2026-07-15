@@ -140,8 +140,8 @@ lib/
 5. [X] Schritt 2 (Admin-Dashboard) implementieren
 6. [X] Deployment aufsetzen (GitHub Actions → GitHub Pages)
 7. [ ] Domain konfigurieren (optional – aktuell unter https://reyneke.github.io/plan-prototyp-produktion/)
-8. [ ] Rechtliche Seiten (Impressum, Datenschutz, AGB) einbinden
-9. [ ] Schritt 3: Reflexion schreiben
+8. [X] Rechtliche Seiten (Impressum, Datenschutz, AGB) einbinden
+9. [X] Schritt 3: Reflexion schreiben
 
 ## Erklärung: Punkt 6 – "Deployment aufsetzen (GitHub Actions → GitHub Pages)"
 

@@ -4,6 +4,9 @@ import 'pages/public/home_page.dart';
 import 'pages/public/shop_page.dart';
 import 'pages/public/article_detail_page.dart';
 import 'pages/public/login_page.dart';
+import 'pages/public/imprint_page.dart';
+import 'pages/public/privacy_page.dart';
+import 'pages/public/terms_page.dart';
 import 'pages/admin/admin_dashboard.dart';
 
 void main() async {
@@ -50,6 +53,12 @@ class PepeEtUrinalApp extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => const LoginPage());
           case '/admin':
             return MaterialPageRoute(builder: (_) => const AdminDashboard());
+          case '/imprint':
+            return MaterialPageRoute(builder: (_) => const ImprintPage());
+          case '/privacy':
+            return MaterialPageRoute(builder: (_) => const PrivacyPage());
+          case '/terms':
+            return MaterialPageRoute(builder: (_) => const TermsPage());
           default:
             return MaterialPageRoute(builder: (_) => const HomePage());
         }

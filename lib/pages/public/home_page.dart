@@ -250,6 +250,60 @@ class _HomePageState extends State<HomePage> {
             ),
 
             const SizedBox(height: 32),
+
+            // ========================================
+            // Footer mit rechtlichen Links
+            // ========================================
+            Container(
+              width: double.infinity,
+              color: const Color(0xFF1A1A1A),
+              padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+              child: Column(
+                children: [
+                  const Icon(Icons.local_pizza, size: 40, color: Colors.white54),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Pizzeria Pepe et Urinal',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Falkenseer Chaussee 127, 13589 Berlin',
+                    style: TextStyle(fontSize: 14, color: Colors.white54),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Tel: 030 / 12345678',
+                    style: TextStyle(fontSize: 14, color: Colors.white54),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pushNamed(context, '/imprint'),
+                        child: const Text('Impressum', style: TextStyle(color: Colors.white70)),
+                      ),
+                      const Text('|', style: TextStyle(color: Colors.white30)),
+                      TextButton(
+                        onPressed: () => Navigator.pushNamed(context, '/privacy'),
+                        child: const Text('Datenschutz', style: TextStyle(color: Colors.white70)),
+                      ),
+                      const Text('|', style: TextStyle(color: Colors.white30)),
+                      TextButton(
+                        onPressed: () => Navigator.pushNamed(context, '/terms'),
+                        child: const Text('AGB', style: TextStyle(color: Colors.white70)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    '© 2026 Fran Jatzek',
+                    style: TextStyle(fontSize: 12, color: Colors.white38),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
