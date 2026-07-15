@@ -20,6 +20,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Create env files from secrets
+        run: |
+          mkdir -p lib/env
+          cat > lib/env/supabase_key.dart << 'EOF'
+          const String url = '${{ secrets.SUPABASE_URL }}';
+          const String anonKey = '${{ secrets.SUPABASE_ANON_KEY }}';
+          EOF
+          cat > lib/env/api_key.dart << 'EOF'
+          const String brevoApiKey = '${{ secrets.BREVO_API_KEY }}';
+          EOF
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
