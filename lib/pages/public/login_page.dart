@@ -32,17 +32,49 @@ class _LoginPageState extends State<LoginPage> {
     try {
       if (_isLogin) {
         await _supabase.signIn(_emailController.text.trim(), _passwordController.text);
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/');
+        }
       } else {
-        await _supabase.signUp(_emailController.text.trim(), _passwordController.text);
-      }
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/');
+        final response = await _supabase.signUp(_emailController.text.trim(), _passwordController.text);
+        if (mounted) {
+          if (response.user != null && response.session != null) {
+            // Automatisch eingeloggt (wenn E-Mail-Verifikation deaktiviert)
+            Navigator.pushReplacementNamed(context, '/');
+          } else {
+            // E-Mail-Verifikation erforderlich
+            _showVerificationDialog();
+          }
+        }
       }
     } catch (e) {
       setState(() => _error = e.toString());
     } finally {
       if (mounted) setState(() => _loading = false);
     }
+  }
+
+  void _showVerificationDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Registrierung erfolgreich'),
+        content: Text(
+          'Wir haben dir eine Bestätigungs-E-Mail an ${_emailController.text.trim()} gesendet.\n\n'
+          'Bitte prüfe dein Postfach und klicke auf den Bestätigungslink, um dein Konto zu aktivieren.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              setState(() => _isLogin = true);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
