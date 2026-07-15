@@ -142,3 +142,37 @@ lib/
 7. [ ] Domain konfigurieren
 8. [ ] Rechtliche Seiten (Impressum, Datenschutz, AGB) einbinden
 9. [ ] Schritt 3: Reflexion schreiben
+
+6. [ ] Deployment aufsetzen (GitHub Actions → Vercel/Netlify)
+## Erklärung: Punkt 6 – "Deployment aufsetzen (GitHub Actions → Vercel/Netlify)"
+
+Dieser Punkt aus der `8_Fazit.md` ist ein offener To-do-Eintrag aus der Liste "Nächste Schritte". Er beschreibt die __Aufgabe, die fertige Flutter Web-App automatisch zu bauen und zu hosten__.
+
+### Was ist gemeint?
+
+- __GitHub Actions__: Ein CI/CD-Dienst von GitHub. Immer wenn Code in den `main`-Branch gepusht wird (z. B. nach einem Merge), soll automatisch ein Workflow starten.
+- __Vercel / Netlify__: Zwei Hosting-Plattformen, die sich hervorragend für statische Websites (wie Flutter Web-Builds) eignen. Beide bieten einen __kostenlosen Einstiegstarif__ (Free Tier), was zur "Zero-Cost"-Anforderung des Projekts passt.
+
+### Was wäre notwendig – Schritt-für-Schritt:
+
+1. __GitHub-Repository__ – Das Projekt muss auf GitHub liegen (ist bereits der Fall, siehe Remote-URL).
+
+2. __Build-Befehl testen__ – Lokal prüfen, dass `flutter build web` fehlerfrei funktioniert und einen `build/web/`-Ordner erzeugt.
+
+3. __Vercel/Netlify-Konto erstellen__ – Ein kostenloses Konto anlegen.
+
+4. __GitHub Actions-Workflow anlegen__ – Datei `.github/workflows/deploy.yml` erstellen, die:
+
+   - Bei jedem Push auf `main` ausgelöst wird
+   - Die `flutter build web`-Pipeline ausführt (mit `setup-flutter`-Action)
+   - Das Build-Artifakt (`build/web/`) an Vercel/Netlify ausliefert
+
+   __Oder einfacher__: Man kann Vercel/Netlify direkt mit dem GitHub-Repo verbinden (ohne eigene `.yml`-Datei). Die Plattform erkennt dann automatisch den Build-Befehl und deployt bei jedem Push.
+
+5. __Domain konfigurieren__ (Punkt 7) – Eine benutzerdefinierte Domain (z. B. `pizzeria-beispiel.de`) mit dem Deployment verknüpfen (DNS + CNAME-Eintrag).
+
+6. __Environment-Variablen__ – Die Supabase-Zugangsdaten (`SUPABASE_URL`, `SUPABASE_ANON_KEY`) sowie den Brevo-API-Key als Secrets in GitHub oder direkt im Hosting-Dashboard hinterlegen, damit die App im Produktivbetrieb funktioniert.
+
+### Warum dieser Punkt wichtig ist:
+
+Ohne Deployment ist die App nur lokal sichtbar. Erst durch diesen Schritt wird die Anwendung für echte Nutzer unter einer öffentlichen URL erreichbar – das ist das finale Ziel des gesamten Projekts.

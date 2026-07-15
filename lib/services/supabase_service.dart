@@ -17,7 +17,7 @@ class SupabaseService {
   Future<void> initialize() async {
     await Supabase.initialize(
       url: env.url,
-      publishableKey: env.publishableKey,
+      publishableKey: env.anonKey,
     );
   }
 
