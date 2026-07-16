@@ -53,7 +53,7 @@ app.*.map.json
 
 # Sensitive data - Zugangsdaten (Supabase, Brevo, etc.)
 .env/
-lib/env/
+lib/env/api_key.dart
 
 # Android related
 **/android/**/gradle-wrapper.jar
