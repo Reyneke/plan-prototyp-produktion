@@ -1,5 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../env/supabase_key.dart' as env;
+import '../config/supabase_config.dart';
 import '../models/article.dart';
 import '../models/product.dart';
 import '../models/category.dart';
@@ -16,8 +16,8 @@ class SupabaseService {
   // ============================================================
   Future<void> initialize() async {
     await Supabase.initialize(
-      url: env.url,
-      anonKey: env.anonKey,
+      url: supabaseUrl,
+      anonKey: supabaseAnonKey,
     );
   }
 
